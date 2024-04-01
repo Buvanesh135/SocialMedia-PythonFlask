@@ -104,7 +104,6 @@ class BlueprintSetupState:
         defaults = self.url_defaults
         if "defaults" in options:
             defaults = dict(defaults, **options.pop("defaults"))
-
         self.app.add_url_rule(
             rule,
             f"{self.name_prefix}.{self.name}.{endpoint}".lstrip("."),

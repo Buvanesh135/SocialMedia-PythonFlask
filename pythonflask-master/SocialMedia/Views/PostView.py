@@ -49,7 +49,7 @@ def GetallPostofUser():
    else:
        return ResponseBody("No Post Found of User"),400
    
-   
+
 
 @Postblue.route("/getPaginationofPost",methods=["GET"])
 def getPaginationofPost():
@@ -57,8 +57,8 @@ def getPaginationofPost():
    totalrecords=request.args.get('per_pages',default=3,type=int)
    post=Post.query.with_entities(Post.post_name,Post.id,Post.user_id).paginate(page=page_no,per_page=totalrecords)
    if post:
-       result=query_list_to_dict(post),200
-       return Success(result,0),400
+       result=query_list_to_dict(post)
+       return Success(result,0),200
    
   
 @Postblue.route("/GetPostOfFollowings",methods=["GET"])

@@ -85,7 +85,6 @@ def updateUser(currentuser):
 
 
 @blu.route("/getSingleUser",methods=["GET"])
-
 def getSingleUser(currentuser):
   if currentuser.Email!='buvanesh1902@gmail.com':
    return jsonify({"Message":"Can't perform Task"}),401

@@ -14,10 +14,7 @@ def get_error_code(error):
     error_code = getattr(error, 'code', common['SERVER_ERROR'])
     if error_code:
         return error_code
-    return common['SERVER_ERROR']
-
-def get_err():
-    pass
+    return common['ERVER_ERROR']
 
 def get_error(err):
     if err=="Internal Server":
@@ -26,8 +23,7 @@ def get_error(err):
         return jsonify({"Message":err}),400
     elif err=="Unauthorized Access":
         return jsonify({"Message":err}),401
-
-
+    
 def handle_error(error):
     """ Error handler """
     # session.rollback()
@@ -36,7 +32,6 @@ def handle_error(error):
         description = error.description
     if not description:
         description = ",\n ".join([str(x) for x in error.args])
-
     if hasattr(error, 'code'):
         status_code = error.code
     else:
@@ -46,13 +41,11 @@ def handle_error(error):
         status = error.status
     else:
         status = None
-
     if hasattr(error, 'data'):
         data = error.data
     else:
         data = None
     error_code = getattr(error, 'error_code', None)
-
     exc_type, exc_obj, exc_tb = sys.exc_info()
     filename = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
     request_url = request.environ.get('werkzeug.request').url
