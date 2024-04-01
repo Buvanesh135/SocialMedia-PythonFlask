@@ -5,7 +5,6 @@ from factory import db
 def default_uuid():
     return uuid.uuid4().hex
 
-
 def serialize(self):
     return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
 

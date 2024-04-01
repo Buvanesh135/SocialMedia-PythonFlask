@@ -3,7 +3,6 @@ import os
 import sys
 
 from flask import request,jsonify
-
 from . response import Responses as Response
 from constants import common
 

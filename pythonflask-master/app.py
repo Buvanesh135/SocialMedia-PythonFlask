@@ -23,7 +23,7 @@ def applicationBeforeRequest():
     requestPath = request.environ.get("PATH_INFO")
     requestMethod = request.environ.get("REQUEST_METHOD")
     if requestMethod =="OPTIONS":
-        return
+        return  
     if requestPath == "/" or requestPath == "":
         return
     subPath = requestPath.split('/')[-1]
