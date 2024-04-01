@@ -1,0 +1,7 @@
+FROM python:3.10
+COPY . /api
+WORKDIR /api
+ENV PYTHONUNBUFFERED 1
+RUN pip install -r requirements.txt
+#cutomite the runner here use gunicorn, wsgi etc which is suitble to your need
+CMD ["python","app.py"]

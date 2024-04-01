@@ -1,0 +1,6 @@
+WHITELISTED=[
+    "login",
+    "/getFollowings",
+    "/getAllUsers",
+
+]
