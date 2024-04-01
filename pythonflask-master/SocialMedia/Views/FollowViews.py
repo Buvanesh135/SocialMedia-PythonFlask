@@ -4,8 +4,8 @@ from flask import Blueprint,request,jsonify
 from SocialMedia.helper import ResponseBody,save,update,FollowerDetails,FollowingsDetails
 from SocialMedia.Views.PostView import query_list_to_dict,Success
 # from SocialMedia.Views.UserViews import token_required
-followblue=Blueprint('followBlue',__name__,url_prefix="/follow") 
 
+followblue=Blueprint('followBlue',__name__,url_prefix="/follow") 
 
 @followblue.route("/addFollow",methods=["POST"])
 def addFollower():

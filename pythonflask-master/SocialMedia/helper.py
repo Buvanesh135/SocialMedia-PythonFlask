@@ -32,7 +32,6 @@ def ResponseBodyUserSingleData(data):
      return Success(Result,0)
 
 
-
 def ResponseBodyAllUserData(users):
 #      users_details=[]
 #      for user in users:

@@ -7,7 +7,7 @@ from SocialMedia.helper import ResponseBody,save,ResponseBodyUserSingleData,Resp
 from general_utils.json_utils import query_list_to_dict,Success
 import jwt
 import os
-import datetime
+# import datetime
 import secrets
 from config import *
 from functools import wraps
@@ -30,6 +30,7 @@ def CreateNew_User():
            return ResponseBody("Missing detials Enter all details"),400
     except:
        return ResponseBody("Enter the valid details"),400
+
 
 
 # def token_required(f):
@@ -218,19 +219,6 @@ def getUsersofMoreFollowersPagnation(currentuser):
       return ResponseBody("No users Found"),400
 
 
-@blu.route("/login",methods=['GET'])
-def login():
-   auth=request.authorization
-   if not auth or not  auth.username or not auth.password:
-      return make_response('could not verify',401, {'WWW-Authenticate':'Basic realm="Login required!"'})
-   user =Users.query.filter_by(Email=auth.username).first()
-   if not user:
-       return make_response('could not verify',401, {'WWW-Authenticate':'Basic realm="Login required!"'})
-   if auth.password!=user.password:
-       return make_response('could not verify',401, {'WWW-Authenticate':'Basic realm="Login required!"'})
-   token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},Config.SECRET_KEY)
-   print(token,'token generated',Config.SECRET_KEY,"secret_key")
-   return jsonify({'token': token})
 
 
 

@@ -40,6 +40,7 @@ def GetLikeDetailsofPost(currentuser):
         return ResponseBody("NO user Found"),400
     
 
+
 @LikeBlue.route("/getLikeCountofpost",methods=["GET"])
 def getLikeCountofpost(currentuser):
    if currentuser.Email!='buvanesh1902@gmail.com':
@@ -50,6 +51,7 @@ def getLikeCountofpost(currentuser):
        return jsonify({"like_count":len(postcount)}),200
    else:
        return ResponseBody("NO likes Found for POST"),400
+
 
 
 @LikeBlue.route("/getPostOfMoreLikes",methods=["GET"])
@@ -63,7 +65,6 @@ def getPostOfMoreLikes(currentuser):
        return ResponseBody("No Post Found"),400
    
    
-
 @LikeBlue.route("/getLikedPostsofUser",methods=["GET"])
 def getLikedPostsofUser():
     user_id=request.args.get('user_id')

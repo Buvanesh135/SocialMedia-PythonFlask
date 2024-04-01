@@ -17,6 +17,7 @@ def Addpost():
         return ResponseBody("Enter the Valid Post details"),400
     
 
+
 @Postblue.route("/GetPost",methods=["GET"])
 def GetPost():
     getallPost=Post.query.with_entities(Post.post_name,Post.user_id).all()
@@ -24,6 +25,7 @@ def GetPost():
       return ResponseBodyAllPostData(getallPost),200
     else :
       return ResponseBody("No data Exist"),400
+
 
 
 @Postblue.route("/GetSinglePost",methods=["GET"])
@@ -46,6 +48,7 @@ def GetallPostofUser():
         return Success(result,payload),200
    else:
        return ResponseBody("No Post Found of User"),400
+   
    
 
 @Postblue.route("/getPaginationofPost",methods=["GET"])

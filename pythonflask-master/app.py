@@ -13,15 +13,13 @@ import jwt
 
 app = create_app(__name__)
 
-
 #       MiddleWare
-
 @app.before_request
 def applicationBeforeRequest():
     """
     MiddleWare
     """
-    accessToken = request.headers["AUTHORIZATION"]
+    accessToken = request.headers["x-access-token"]
     requestPath = request.environ.get("PATH_INFO")
     requestMethod = request.environ.get("REQUEST_METHOD")
     if requestMethod =="OPTIONS":
@@ -29,6 +27,7 @@ def applicationBeforeRequest():
     if requestPath == "/" or requestPath == "":
         return
     subPath = requestPath.split('/')[-1]
+    print('access token',accessToken)
     if not (subPath in WHITELISTED):
         if accessToken:
             result= validateTokens(accessToken)
@@ -39,7 +38,7 @@ def applicationBeforeRequest():
                     return jsonify({"message": "Invalid token"}), 401
         else:
             return failure("Token Missing", status_code=403)
-
+        
 
 def validateTokens(token):
         try:
@@ -53,19 +52,8 @@ def validateTokens(token):
         except jwt.InvalidTokenError:
             return "Invalid token"
         except Exception as e:
-            return jsonify({"message": str(e)}), 401
+            return jsonify({"message": str(e)}), 401   
             
-            
-# def authenticatedUser(user_id):
-#     if 'TEMP' in  user_id:
-#         validate_query = f"select id from temp_user where user_id='{user_id}'"
-#         return True if raw_select_read_replica(validate_query) else False
-#     elif user_id.startswith('CMS'):
-#             user_id = user_id[4:]
-#             user_query = f"select id from admin_users where id= '{user_id}'"
-#             return True if raw_select_read_replica(user_query) else False
-#     validate_query = f"select id from user_data where id='{user_id}'"
-#     return True if raw_select_read_replica(validate_query) else False
 
 
 register_blueprints(app)        

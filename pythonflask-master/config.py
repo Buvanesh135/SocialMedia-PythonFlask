@@ -13,6 +13,7 @@ class Config:
     DEBUG = True
     #to be user with any hashing salting usecases through out the application
     SECRET_KEY = 'BSVIiuYZcTAzHRe07NzEgYqveb6mqwsa' 
+    REFRESH_SECRET_KEY='611E7F5B77154'
     #To Be attached under the general library
     SQLALCHEMY_DATABASE_URI = os.getenv('SQLALCHEMY_DATABASE_URI')
     SQLALCHEMY_ECHO = False

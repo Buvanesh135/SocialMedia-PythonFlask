@@ -24,21 +24,20 @@ def create_app(config_name):
 
 
 def register_blueprints(app):
- 
     from SocialMedia.Views.UserViews import blu
     from SocialMedia.Views.FollowViews import followblue
     from SocialMedia.Views.PostView import Postblue
     from SocialMedia.Views.LikeViews import LikeBlue
+    from SocialMedia.Views.AuthView import authblue
     if BASE_URL_PREFIX:
         # app.register_blueprint(blue, url_prefix=BASE_URL_PREFIX)
-       
         app.register_blueprint(blu,url_prefix=BASE_URL_PREFIX) 
         app.register_blueprint(followblue, url_prefix=BASE_URL_PREFIX)
         app.register_blueprint(Postblue, url_prefix=BASE_URL_PREFIX)
     else:
         # app.register_blueprint(blue)
-        
         app.register_blueprint(blu)
         app.register_blueprint(followblue)
         app.register_blueprint(Postblue)
         app.register_blueprint(LikeBlue)
+        app.register_blueprint(authblue)
