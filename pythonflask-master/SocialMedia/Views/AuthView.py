@@ -16,13 +16,13 @@ def login():
        return make_response('could not verify',401, {'WWW-Authenticate':'Basic realm="Login required!"'})
    if auth.password!=user.password:
        return make_response('could not verify',401, {'WWW-Authenticate':'Basic realm="Login required!"'})
-   acceesstoken = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)},Config.SECRET_KEY)
+   accesstoken = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1)},Config.SECRET_KEY)
    refreshtoken=jwt.encode({'id':user.id,'exp':datetime.datetime.utcnow() + datetime.timedelta(days=1)},Config.REFRESH_SECRET_KEY)
-   print(acceesstoken,'token generated',Config.SECRET_KEY,"secret_key")
-   return jsonify({'accesstoken': acceesstoken,'refreshtoken':refreshtoken})
+   print(accesstoken,'token generated',Config.SECRET_KEY,"secret_key")
+   return jsonify({'accesstoken': accesstoken,'refreshtoken':refreshtoken})
 
 
-@authblue.route("/refresh_token", methods=['POST'])
+@authblue.route("/refreshtoken", methods=['POST'])
 def refresh_token():
     refresh_token = request.json.get('refresh_token')
     try:

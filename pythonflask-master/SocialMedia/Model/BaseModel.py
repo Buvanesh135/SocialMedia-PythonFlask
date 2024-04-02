@@ -5,8 +5,10 @@ from factory import db
 def default_uuid():
     return uuid.uuid4().hex
 
+
 def serialize(self):
     return {c: getattr(self, c) for c in inspect(self).attrs.keys()}
+
 
 class Base(db.Model):
     __abstract__ = True
@@ -26,8 +28,10 @@ class Base(db.Model):
     deleted_by = Column(String(40), default=None)
     status = Column(String(10), default=None)
     
+    
     def _asdict(self):
         return serialize(self)
+    
 
     def objects(*args):
         return db.session.query(*args)

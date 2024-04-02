@@ -32,34 +32,6 @@ def CreateNew_User():
        return ResponseBody("Enter the valid details"),400
 
 
-
-# def token_required(f):
-#     @wraps(f)
-#     def decorated(*args, **kwargs):
-#         token = None
-#         if 'x-access-token' in request.headers:
-#             token = request.headers['x-access-token']
-#             print(token, "token")
-#         else:
-#             return jsonify({"message": "Token is missing"}), 401
-#         try:
-#             print(secret_key, 'secret_key')
-#             data = jwt.decode(token, secret_key,algorithms=['HS256'])
-#             print(data['id'], "data")
-#             current_user = Users.query.filter_by(id=data["id"]).first()
-#             if current_user is None:
-#                 raise Exception("User not found")
-#         except jwt.ExpiredSignatureError:
-#             return jsonify({"message": "Token has expired"}), 401
-#         except jwt.InvalidTokenError:
-#             return jsonify({"message": "Invalid token"}), 401
-#         except Exception as e:
-#             return jsonify({"message": str(e)}), 401
-#         return f(current_user, *args, **kwargs)
-    
-#     return decorated
-
-
 @blu.route("/updateUser",methods=["PUT"])
 def updateUser(currentuser):
    if currentuser!='buvanesh1902@gmail.com':
@@ -83,7 +55,6 @@ def updateUser(currentuser):
        return ResponseBody("User Details Updates Successfully"),200
 
 
-
 @blu.route("/getSingleUser",methods=["GET"])
 def getSingleUser(currentuser):
   if currentuser.Email!='buvanesh1902@gmail.com':
@@ -94,7 +65,6 @@ def getSingleUser(currentuser):
   else:
      return ResponseBodyUserSingleData(data),200
   
-
 
 @blu.route("/getAllUsers",methods=["GET"])
 def getAllUsers(currentuser):
@@ -113,12 +83,11 @@ def getAllUsers(currentuser):
 
 @blu.route("/getInterest",methods=["GET"])
 def getInterest(currentuser):
-   if currentuser.Email!='buvanesh1902@gmail.com':
-    return jsonify({"Message":"Can't perform Task"}),401
    payload=request.args.get('interest')
    getAllUsers=Users.query.filter_by(interest=payload).all()
    if getAllUsers:
-      return ResponseBodyAllUserData(getAllUsers),200
+       return ResponseBodyAllUserData(getAllUsers),200
+   
    else:
       return ResponseBody("NO User Found with Interest"),400
 

@@ -4,6 +4,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 env_path = Path('.') / '.env'
 load_dotenv(verbose=True, dotenv_path=env_path)
+
 import os
 class Config:
     """
@@ -23,10 +24,12 @@ class Config:
     SQLALCHEMY_MAX_OVERFLOW = 20
     SQLALCHEMY_POOL_PRE_PING = True
     SQLALCHEMY_POOL_RECYCLE = 300
+   
     #JWT BLOCK
     JWT_ALGORITHM  = os.getenv('JWT_ALGORITHM')
     JWT_TOKEN_TIME_OUT_IN_MINUTES = os.getenv('JWT_TOKEN_TIME_OUT_IN_MINUTES')
     JWT_REFRESH_TOKEN_TIME_OUT_IN_MINUTES = os.getenv('JWT_REFRESH_TOKEN_TIME_OUT_IN_MINUTES')
+    
 
 class DevelopmentConfig(Config):
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:iphone21@localhost/hoi'

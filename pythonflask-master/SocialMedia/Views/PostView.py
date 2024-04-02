@@ -1,11 +1,15 @@
 from SocialMedia.Model.Models import Post,Follow
-from factory import db
+from flask_mail import Mail
+from flask_mail import Message
+from factory import create_app
 from flask import request,jsonify,Blueprint
 from SocialMedia.helper import save,ResponseBody,ResponseBodyAllPostData,ResponseBodySinglePostData,PostofFollowings
 from general_utils.json_utils import query_list_to_dict,Success
 Postblue=Blueprint('PostBlue',__name__,url_prefix="/post")
 
 
+app=create_app(__name__)
+mail=Mail()
 @Postblue.route("/Addpost",methods=["POST"])
 def Addpost():
     data=request.get_json()
@@ -17,14 +21,28 @@ def Addpost():
         return ResponseBody("Enter the Valid Post details"),400
     
 
+@Postblue.route("/getPostofonefollower",methods=["GET"])
+def getPostofonefollower():
+   data=request.args.get('id')
+   if data:
+      post=Post.query.with_entities(Post.id,Post.post_name)
+
+
 
 @Postblue.route("/GetPost",methods=["GET"])
 def GetPost():
     getallPost=Post.query.with_entities(Post.post_name,Post.user_id).all()
     if getallPost:
+      msg="this is title"
+      sender="20p308@kce.ac.in"
+      receiver="buvanesh1902@gmail.com"
+      msg=Message(msg,sender=sender,recipients=[receiver])
+      mail.init_app(app)
+      mail.send(msg)
       return ResponseBodyAllPostData(getallPost),200
     else :
       return ResponseBody("No data Exist"),400
+    
 
 
 
@@ -36,6 +54,8 @@ def GetSinglePost():
       return ResponseBodySinglePostData(post),200
     else :
       return ResponseBody("No data Exist"),400
+
+
 
 
 @Postblue.route("/GetallPostofUser",methods=["GET"])
@@ -59,8 +79,8 @@ def getPaginationofPost():
    if post:
        result=query_list_to_dict(post)
        return Success(result,0),200
-   
-  
+
+
 @Postblue.route("/GetPostOfFollowings",methods=["GET"])
 def GetPostOfFollowings():
    user_id=request.args.get('id')
