@@ -2,6 +2,7 @@ import os
 from factory import create_app, register_blueprints
 from flask import request, g, Response, Blueprint,jsonify
 from SocialMedia.Model.Models import Users
+from authlib.integrations.flask_client import OAuth
 from config import Config
 from flask import redirect
 from general_utils.Whitelisted import WHITELISTED
@@ -9,7 +10,23 @@ from SocialMedia.helper import failure
 from general_utils.connection import raw_select_read_replica
 import jwt
 
-app = create_app(__name__)
+mail,app = create_app(__name__)
+
+oauth = OAuth(app)
+google = oauth.register(
+    name='google',
+    consumer_key=os.getenv('GOOGLE_CLIENT_ID'),
+    consumer_secret=os.getenv('GOOGLE_SCRECT_KEY'),
+    client_kwargs={
+        'scope': 'email'
+    },
+    base_url='https://www.googleapis.com/oauth2/v1/',
+    request_token_url=None,
+    access_token_method='POST',
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    authorize_url='https://accounts.google.com/o/oauth2/auth',
+)
+
 
 #       MiddleWare
 @app.before_request
@@ -27,7 +44,6 @@ def applicationBeforeRequest():
     if requestPath == "/" or requestPath == "":
         return
     subPath = requestPath.split('/')[-1]
-    print('access token',accessToken)
     if not (subPath in WHITELISTED):
         if accessToken:
             result= validateTokens(accessToken)

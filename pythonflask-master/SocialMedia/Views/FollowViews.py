@@ -2,11 +2,13 @@
 from SocialMedia.Model.Models import Follow,Users
 from flask import Blueprint,request,jsonify
 from SocialMedia.helper import ResponseBody,save,update,FollowerDetails,FollowingsDetails
-
 followblue=Blueprint('followBlue',__name__,url_prefix="/follow") 
+
+
 
 @followblue.route("/addFollow",methods=["POST"])
 def addFollower():
+    from api.users.views import mailsender
     data=request.get_json()
     sender_id=data.get('sender_id')
     receiver_id=data.get('receiver_id')
@@ -14,8 +16,9 @@ def addFollower():
     get_users=Follow.query.filter_by(receiver_id=receiver_id,sender_id=sender_id).first()
     if get_users:
          return jsonify({"Message":"Already Requested"}),400
-    if get_AccountType.account_type == "private":
+    if get_AccountType.account_type == "private": 
            follow=Follow(sender_id=sender_id,receiver_id=receiver_id)
+           mailsender("buvanesh1902@gmail.com","buvanesh")
            save(follow)
     else:
             follow=Follow(sender_id=sender_id,receiver_id=receiver_id,status=True)

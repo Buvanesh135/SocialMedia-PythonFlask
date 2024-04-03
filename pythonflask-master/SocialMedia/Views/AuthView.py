@@ -1,4 +1,4 @@
-from flask import Blueprint,request,make_response,jsonify
+from flask import Blueprint,request,make_response,jsonify,render_template,url_for,session,abort,redirect,json
 import datetime
 from config import *
 from SocialMedia.Model.Models import Users
@@ -34,3 +34,22 @@ def refresh_token():
         return jsonify({'message': 'Refresh token expired'}), 401
     except jwt.InvalidTokenError:
         return jsonify({'message': 'Invalid refresh token'}), 401
+
+@authblue.route("/hello",methods=['GET'])
+def helloworld():
+    return render_template("index.html",session=session.get("user"),pretty=json.dumps(session.get("user"),indent=4))
+
+@authblue.route("/callback")
+def callback():
+    from app import oauth
+    token=oauth.google.authorize_access_token()
+    session["user"]=token
+    return redirect(url_for(".helloworld"))
+
+@authblue.route("/sign")
+def sign():
+    if "user" in session:
+        print(session.get("user"))
+        abort(404)
+    from app import oauth
+    return oauth.google.authorize_redirect(redirect_uri=url_for(".callback",_external=True))

@@ -2,5 +2,8 @@ WHITELISTED=[
     "login",
     "/getFollowings",
     "/getAllUsers",
-    "refreshtoken"
+    "refreshtoken",
+    "hello",
+    "sign",
+    "callback"
 ]

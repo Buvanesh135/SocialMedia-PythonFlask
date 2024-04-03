@@ -18,18 +18,18 @@ def create_app(config_name):
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS']= False 
     ''' App initialisation '''
     db.init_app(app)
-    app.config['MAIL_SERVER']="stmp.google.com"
-    app.config['MAIL_PORT']=567
-    app.config['MAIL_USERNAME']="palanisamy.buvanesh@divum.in"
-    app.config['MAIL_PASSWORD']="oznh mwxg hafj bedn"
-    app.config['MAIL_USE_TLS']=False
-    app.config['MAIL_USE_SSL']=True
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USERNAME'] = 'palanisamy.buvanesh@divum.in'
+    app.config['MAIL_PASSWORD'] = 'nexsbpxhltonfajl'
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USE_SSL'] = False
     migrate = Migrate(app, db, compare_type=True)
     
     mail.init_app(app)
     # Enabling CORS
     CORS(app)
-    return app
+    return mail,app
 
 
 
@@ -39,6 +39,7 @@ def register_blueprints(app):
     from SocialMedia.Views.PostView import Postblue
     from SocialMedia.Views.LikeViews import LikeBlue
     from SocialMedia.Views.AuthView import authblue
+    # from api.users.views import mailblue
     # from SocialMedia.Views.MailSender import bluemail
     if BASE_URL_PREFIX:
         # app.register_blueprint(blue, url_prefix=BASE_URL_PREFIX)
@@ -52,5 +53,6 @@ def register_blueprints(app):
         app.register_blueprint(Postblue)
         app.register_blueprint(LikeBlue)
         app.register_blueprint(authblue)
+        # app.register_blueprint(mailblue)
         
         
