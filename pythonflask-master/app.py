@@ -9,8 +9,8 @@ from general_utils.Whitelisted import WHITELISTED
 from SocialMedia.helper import failure
 from general_utils.connection import raw_select_read_replica
 import jwt
-
 mail,app = create_app(__name__)
+
 
 oauth = OAuth(app)
 google = oauth.register(

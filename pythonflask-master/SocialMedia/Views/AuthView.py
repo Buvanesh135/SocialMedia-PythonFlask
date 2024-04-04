@@ -3,6 +3,7 @@ import datetime
 from config import *
 from SocialMedia.Model.Models import Users
 import jwt
+# from app import google
 authblue=Blueprint('authprint',__name__,url_prefix="/auth")
 
 
@@ -22,6 +23,7 @@ def login():
    return jsonify({'accesstoken': accesstoken,'refreshtoken':refreshtoken})
 
 
+
 @authblue.route("/refreshtoken", methods=['POST'])
 def refresh_token():
     refresh_token = request.json.get('refresh_token')
@@ -35,9 +37,14 @@ def refresh_token():
     except jwt.InvalidTokenError:
         return jsonify({'message': 'Invalid refresh token'}), 401
 
+
+
 @authblue.route("/hello",methods=['GET'])
 def helloworld():
-    return render_template("index.html",session=session.get("user"),pretty=json.dumps(session.get("user"),indent=4))
+    if "user" in session:
+        return render_template("index.html",session=session.get("user"),pretty=json.dumps(session.get("user"),indent=4))
+    return redirect(url_for(".sign"))
+
 
 @authblue.route("/callback")
 def callback():
@@ -46,10 +53,27 @@ def callback():
     session["user"]=token
     return redirect(url_for(".helloworld"))
 
+
 @authblue.route("/sign")
 def sign():
     if "user" in session:
         print(session.get("user"))
         abort(404)
-    from app import oauth
-    return oauth.google.authorize_redirect(redirect_uri=url_for(".callback",_external=True))
+    else:
+        from app import oauth
+        return oauth.google.authorize_redirect(redirect_uri=url_for(".callback",_external=True))
+
+
+@authblue.route("/signout")
+def signout():
+        session.pop("user", None)
+        return redirect(url_for('.sign'))
+        
+
+@authblue.route("/index")
+def index():
+    return "Google test"
+
+# @google.tokengetter
+# def get_google_oauth_token():
+#     return session.get('google_token')

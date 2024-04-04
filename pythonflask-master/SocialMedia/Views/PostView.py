@@ -42,8 +42,6 @@ def GetPost():
       return ResponseBodyAllPostData(getallPost),200
     else :
       return ResponseBody("No data Exist"),400
-    
-
 
 
 @Postblue.route("/GetSinglePost",methods=["GET"])
@@ -54,7 +52,6 @@ def GetSinglePost():
       return ResponseBodySinglePostData(post),200
     else :
       return ResponseBody("No data Exist"),400
-
 
 
 

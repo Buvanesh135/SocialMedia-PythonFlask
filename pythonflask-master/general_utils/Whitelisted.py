@@ -5,5 +5,7 @@ WHITELISTED=[
     "refreshtoken",
     "hello",
     "sign",
-    "callback"
+    "callback",
+    "signout",
+    "index"
 ]
