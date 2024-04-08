@@ -26,7 +26,7 @@ def getPostofonefollower():
    data=request.args.get('id')
    if data:
       post=Post.query.with_entities(Post.id,Post.post_name)
-
+  
 
 
 @Postblue.route("/GetPost",methods=["GET"])
@@ -52,7 +52,6 @@ def GetSinglePost():
       return ResponseBodySinglePostData(post),200
     else :
       return ResponseBody("No data Exist"),400
-
 
 
 @Postblue.route("/GetallPostofUser",methods=["GET"])

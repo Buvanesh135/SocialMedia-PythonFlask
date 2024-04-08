@@ -1,27 +1,35 @@
 from flask import Blueprint,request,make_response,jsonify,render_template,url_for,session,abort,redirect,json
 import datetime
 from config import *
+import os
 from SocialMedia.Model.Models import Users
 import jwt
 # from app import google
 authblue=Blueprint('authprint',__name__,url_prefix="/auth")
 
 
-@authblue.route("/login",methods=['GET'])
+@authblue.route("/login", methods=['GET'])
 def login():
-   auth=request.authorization
-   if not auth or not  auth.username or not auth.password:
-      return make_response('could not verify',401, {'WWW-Authenticate':'Basic realm="Login required!"'})
-   user =Users.query.filter_by(Email=auth.username).first()
-   if not user:
-       return make_response('could not verify',401, {'WWW-Authenticate':'Basic realm="Login required!"'})
-   if auth.password!=user.password:
-       return make_response('could not verify',401, {'WWW-Authenticate':'Basic realm="Login required!"'})
-   accesstoken = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1)},Config.SECRET_KEY)
-   refreshtoken=jwt.encode({'id':user.id,'exp':datetime.datetime.utcnow() + datetime.timedelta(days=1)},Config.REFRESH_SECRET_KEY)
-   print(accesstoken,'token generated',Config.SECRET_KEY,"secret_key")
-   return jsonify({'accesstoken': accesstoken,'refreshtoken':refreshtoken})
+    auth = request.authorization
+    if not auth or not auth.username or not auth.password:
+        return make_response('could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+    
+    user = Users.query.filter_by(Email=auth.username).first()
+    if not user:
+        return make_response('could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+    
+    if auth.password != user.password:
+        return make_response('could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+    
+    access_token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, Config.SECRET_KEY)
+    refresh_token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)}, Config.REFRESH_SECRET_KEY)
+    
+    # Decode byte strings to UTF-8 strings
+    access_token_str = access_token.decode('utf-8')
+    refresh_token_str = refresh_token.decode('utf-8')
 
+    print(access_token_str, 'token generated', Config.SECRET_KEY, "secret_key")
+    return jsonify({'access_token': access_token_str, 'refresh_token': refresh_token_str})
 
 
 @authblue.route("/refreshtoken", methods=['POST'])
@@ -31,7 +39,8 @@ def refresh_token():
         decoded = jwt.decode(refresh_token, Config.REFRESH_SECRET_KEY, algorithms=['HS256'])
         user_id = decoded['id']
         new_access_token = jwt.encode({'id': user_id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, Config.SECRET_KEY)
-        return jsonify({'access_token': new_access_token})
+        new_access_token_str=new_access_token.decode('utf-8')
+        return jsonify({'access_token': new_access_token_str})
     except jwt.ExpiredSignatureError:
         return jsonify({'message': 'Refresh token expired'}), 401
     except jwt.InvalidTokenError:
@@ -46,10 +55,11 @@ def helloworld():
     return redirect(url_for(".sign"))
 
 
+
 @authblue.route("/callback")
 def callback():
     from app import oauth
-    token=oauth.google.authorize_access_token()
+    token=oauth.google.authorize_access_token(client_secret=os.getenv('GOOGLE_SECRET_KEY'))
     session["user"]=token
     return redirect(url_for(".helloworld"))
 
@@ -66,14 +76,12 @@ def sign():
 
 @authblue.route("/signout")
 def signout():
-        session.pop("user", None)
-        return redirect(url_for('.sign'))
-        
+    if "user" in session:
+        session.clear()
+    
+    return redirect(url_for('.sign'))
+
 
 @authblue.route("/index")
 def index():
     return "Google test"
-
-# @google.tokengetter
-# def get_google_oauth_token():
-#     return session.get('google_token')

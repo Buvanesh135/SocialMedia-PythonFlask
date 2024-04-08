@@ -12,8 +12,9 @@ import secrets
 from config import *
 from functools import wraps
 blu=Blueprint('blueprintss',__name__,url_prefix="/user")
-secret_key = secrets.token_hex(32)
 
+
+secret_key = secrets.token_hex(32)
 @blu.route("/newuser",methods=["POST"])
 def CreateNew_User():
     data=request.get_json()
@@ -32,10 +33,9 @@ def CreateNew_User():
        return ResponseBody("Enter the valid details"),400
 
 
+
 @blu.route("/updateUser",methods=["PUT"])
-def updateUser(currentuser):
-   if currentuser!='buvanesh1902@gmail.com':
-      return jsonify({"Message":"Can't perform task"}),401
+def updateUser():
    data=request.get_json()
    getUser=Users.query.filter_by(data.get('email')).first()
    if not getUser:
@@ -56,9 +56,8 @@ def updateUser(currentuser):
 
 
 @blu.route("/getSingleUser",methods=["GET"])
-def getSingleUser(currentuser):
-  if currentuser.Email!='buvanesh1902@gmail.com':
-   return jsonify({"Message":"Can't perform Task"}),401
+def getSingleUser():
+ 
   data=request.args.get('id')
   if not data:
      return ResponseBody("User not Present Enter the valid user id"),400
@@ -67,11 +66,7 @@ def getSingleUser(currentuser):
   
 
 @blu.route("/getAllUsers",methods=["GET"])
-def getAllUsers(currentuser):
-
-   if currentuser.Email!='buvanesh1902@gmail.com':
-      return jsonify({"Message":"Can't perform Task"})
-
+def getAllUsers():
    getUsers=Users.query.all()
    if not getUsers:
       return ResponseBody("No data is Exist"),400
@@ -82,20 +77,18 @@ def getAllUsers(currentuser):
 
 
 @blu.route("/getInterest",methods=["GET"])
-def getInterest(currentuser):
+def getInterest():
    payload=request.args.get('interest')
    getAllUsers=Users.query.filter_by(interest=payload).all()
    if getAllUsers:
        return ResponseBodyAllUserData(getAllUsers),200
-   
    else:
       return ResponseBody("NO User Found with Interest"),400
 
 
 @blu.route("/UpdateUser",methods=["PUT"])
-def UpdateUser(currentuser):
-   if currentuser.Email!='buvanesh1902@gmail.com':
-      return jsonify({"Message":"Can't perform Task"}),401
+def UpdateUser():
+  
    payload=request.get_json()
    getuser=Users.query.filter_by(id=payload.get('id')).first()
    if getuser:
@@ -130,9 +123,8 @@ def GetUserofPrivateAccount():
 
 
 @blu.route("/UpdateManyUsers",methods=["PUT"])
-def UpdateManyUsers(currentuser):
-   if currentuser.Email!='buvanesh1902@gmail.com':
-      return jsonify({"Message":"Can't perform Task"}),401
+def UpdateManyUsers():
+   
    payload=request.get_json()
    for data in payload:
       if 'email' in data:
@@ -154,18 +146,14 @@ def UpdateManyUsers(currentuser):
 
 
 @blu.route('/getUserDetailofSuggestion',methods=["GET"])
-def getUserDetailofSuggestion(currentuser):
-   if currentuser.Email!='buvanesh1902@gmail.com':
-      return jsonify({"Message":"Can't perform Task"}),401
+def getUserDetailofSuggestion():
    interest=request.args.get('interest')
    return postofSuggestion(interest=interest)
 
 
 
 @blu.route("/getUserOfMoreFollowers")
-def getUserOfMoreFollowers(currentuser):
-   if currentuser.Email!='buvanesh1902@gmail.com':
-      return jsonify({"Message":"Can't perform Task"}),401
+def getUserOfMoreFollowers():
    user=Users.query.order_by(db.desc(Users.followers)).all()
    if user:
       return ResponseBodyAllUserData(user),200
@@ -175,9 +163,7 @@ def getUserOfMoreFollowers(currentuser):
 
 
 @blu.route("/getUsersofMoreFollowersPagnation")
-def getUsersofMoreFollowersPagnation(currentuser):
-   if currentuser.Email!='buvanesh1902@gmail.com':
-      return jsonify({"Message":"Can't perform Task"}),401
+def getUsersofMoreFollowersPagnation():
    page_no=request.args.get('page_no',default=1,type=int)
    per_pages=request.args.get('per_pages',default=3,type=int)
    users=Users.query.order_by(db.desc(Users.followers)).paginate(page=page_no,per_page=per_pages)

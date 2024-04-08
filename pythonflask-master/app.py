@@ -9,10 +9,12 @@ from general_utils.Whitelisted import WHITELISTED
 from SocialMedia.helper import failure
 from general_utils.connection import raw_select_read_replica
 import jwt
+
 mail,app = create_app(__name__)
-
-
+app.config['SECRET_KEY']='12345'
 oauth = OAuth(app)
+
+
 google = oauth.register(
     name='google',
     consumer_key=os.getenv('GOOGLE_CLIENT_ID'),
@@ -28,7 +30,7 @@ google = oauth.register(
 )
 
 
-#       MiddleWare
+        #       MiddleWare
 @app.before_request
 def applicationBeforeRequest():
     """
@@ -53,8 +55,8 @@ def applicationBeforeRequest():
                 if result=="Invalid token":
                     return jsonify({"message": "Invalid token"}), 401
         else:
-            return failure("Token Missing", status_code=403)
-        
+            return failure("Token Missing", status_code=403)        
+
 
 def validateTokens(token):
         try:
@@ -72,7 +74,6 @@ def validateTokens(token):
             
 
 register_blueprints(app)  
- 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=os.getenv('PORT', os.getenv('PORT')))
 

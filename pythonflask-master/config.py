@@ -48,6 +48,7 @@ class DevelopmentConfig(Config):
 
 
 
+
 # redis_client = 'clien conn goes here'
 app_config = {
     'development': DevelopmentConfig,
