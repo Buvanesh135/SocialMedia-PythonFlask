@@ -1,4 +1,3 @@
-
 from factory import db
 from SocialMedia.Model.Models import Users
 # from flask_jwt_extended import create_access_token,create_refresh_token
@@ -12,6 +11,8 @@ import secrets
 from config import *
 from functools import wraps
 blu=Blueprint('blueprintss',__name__,url_prefix="/user")
+
+
 
 
 secret_key = secrets.token_hex(32)
@@ -55,15 +56,16 @@ def updateUser():
        return ResponseBody("User Details Updates Successfully"),200
 
 
+
 @blu.route("/getSingleUser",methods=["GET"])
 def getSingleUser():
- 
   data=request.args.get('id')
   if not data:
      return ResponseBody("User not Present Enter the valid user id"),400
   else:
      return ResponseBodyUserSingleData(data),200
   
+
 
 @blu.route("/getAllUsers",methods=["GET"])
 def getAllUsers():
@@ -86,9 +88,9 @@ def getInterest():
       return ResponseBody("NO User Found with Interest"),400
 
 
+
 @blu.route("/UpdateUser",methods=["PUT"])
 def UpdateUser():
-  
    payload=request.get_json()
    getuser=Users.query.filter_by(id=payload.get('id')).first()
    if getuser:
@@ -124,7 +126,6 @@ def GetUserofPrivateAccount():
 
 @blu.route("/UpdateManyUsers",methods=["PUT"])
 def UpdateManyUsers():
-   
    payload=request.get_json()
    for data in payload:
       if 'email' in data:

@@ -55,3 +55,8 @@ Werkzeug==2.2.2
 xmltodict==0.13.0
 pymysql==1.0.0
 Flask-Migrate==2.5.2
+requests==2.21.0
+Flask==1.0.2
+oauthlib==3.0.1
+pyOpenSSL==19.0.0
+Flask-Login==0.4.1

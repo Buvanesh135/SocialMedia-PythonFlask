@@ -35,7 +35,6 @@ class BlueprintSetupState:
     :meth:`~flask.Blueprint.make_setup_state` method and later passed
     to all register callback functions.
     """
-
     def __init__(
         self,
         blueprint: "Blueprint",

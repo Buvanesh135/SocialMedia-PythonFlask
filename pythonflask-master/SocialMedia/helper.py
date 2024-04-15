@@ -20,7 +20,7 @@ def ResponseBodyofDeleteUser(id):
      user=Users.query.filter_by(id=id).first()
      if user:
           db.query.session.delete(user)
-          db.session.commit()
+          update()
 
 
 def ResponseBodyUserSingleData(data):
@@ -33,9 +33,6 @@ def ResponseBodyUserSingleData(data):
 
 
 def ResponseBodyAllUserData(users):
-#      users_details=[]
-#      for user in users:
-#           users_details.append(user)
      Result=query_list_to_dict(users)
      return Success(Result,0)
 
@@ -54,7 +51,6 @@ def ResponseBodySinglePostData(data):
       return Success(details,0)
 
 
-
 def FollowerDetails(followers,user_id):
        follow_data=[]
        for follow in followers:
@@ -71,7 +67,6 @@ def FollowingsDetails(followings):
           followings_details.append(following)
      FollowingsDetails=query_list_to_dict(followings_details)
      return Success(FollowingsDetails,0)
-
 
 
 def UserdetailsOfLikes(userdetails):
@@ -94,6 +89,7 @@ def PostofFollowings(followings):
                 "post_likes": post.likes
             }
             following_posts.append(post_details)
+            following_dict.get('')
 
         following_dict = {
             "user_id": following.receiver.id,
@@ -102,7 +98,6 @@ def PostofFollowings(followings):
         followingspost.append(following_dict)
 
     return jsonify(followingspost)
-
 
 
 def postofSuggestion(interest):

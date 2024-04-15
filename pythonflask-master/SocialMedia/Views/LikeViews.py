@@ -25,7 +25,7 @@ def addlike(currentuser):
         db.session.delete(getlike)
         db.session.commit()
         return ResponseBody('disLiked Successfully'),200
- 
+    
 
 @LikeBlue.route("/GetLikeDetailsofPost",methods=["GET"])
 def GetLikeDetailsofPost(currentuser):
@@ -48,7 +48,8 @@ def getLikeCountofpost(currentuser):
    if postcount:
        return jsonify({"like_count":len(postcount)}),200
    else:
-       return ResponseBody("NO likes Found for POST"),400   
+       return ResponseBody("NO likes Found for POST"),400       
+
 
 
 @LikeBlue.route("/getPostOfMoreLikes",methods=["GET"])

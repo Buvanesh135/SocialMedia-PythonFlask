@@ -9,7 +9,7 @@ def Success(message, user_id):
     data = {'data': message, 'error': 0}
     if user_id!=0:
         data['user_id'] = user_id
-        data["message"]="All data retrived Successfully"
+        data["message"]="All Data retrived Successfully"
     resp = jsonify(data)  
     resp.status_code = 200
     resp.content_type = "application/json"

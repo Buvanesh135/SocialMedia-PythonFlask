@@ -10,11 +10,12 @@ from SocialMedia.helper import failure
 from general_utils.connection import raw_select_read_replica
 import jwt
 
+
 mail,app = create_app(__name__)
 app.config['SECRET_KEY']='12345'
 oauth = OAuth(app)
 
-
+                   
 google = oauth.register(
     name='google',
     consumer_key=os.getenv('GOOGLE_CLIENT_ID'),
@@ -29,8 +30,10 @@ google = oauth.register(
     authorize_url='https://accounts.google.com/o/oauth2/auth',
 )
 
+    
 
-        #       MiddleWare
+                                          #MiddleWare  
+
 @app.before_request
 def applicationBeforeRequest():
     """

@@ -2,11 +2,13 @@ from SocialMedia.Model.Models import Follow,Users
 from flask import Blueprint,request,jsonify
 from SocialMedia.helper import ResponseBody,save,update,FollowerDetails,FollowingsDetails
 followblue=Blueprint('followBlue',__name__,url_prefix="/follow") 
+     
 
 
 @followblue.route("/addFollow",methods=["POST"])
 def addFollower():
     from api.users.views import mailsender
+    from api.users.helpers import make_response
     data=request.get_json()
     sender_id=data.get('sender_id')
     receiver_id=data.get('receiver_id')
@@ -31,7 +33,6 @@ def addFollower():
     return ResponseBody("Follow details saved successfully"),200
 
 
-
 @followblue.route("/UpdateFollow",methods=["PUT"])
 def UpdateFollow(currentuser):
    if currentuser.Email!='buvanesh1902@gmail.com':
@@ -47,8 +48,7 @@ def UpdateFollow(currentuser):
    receiver=Users.query.filter_by(id=data.get('receiver_id')).first()
    receiver.followers+=1
    update()
-   return ResponseBody("Follow Details Updated succcessfully")
-
+   return ResponseBody("Follow Details Updated succcessfully"),200
 
 
 @followblue.route("/getFollowers", methods=["GET"])
@@ -68,7 +68,7 @@ def getfolloweringofuser():
      user_id=request.args.get('id')
      followings=Follow.query.filter_by(sender_id=user_id).all()
      if followings:
-          return FollowingsDetails(followings=followings)
+          return FollowingsDetails(followings=followings),200
      else:
           return ResponseBody("No Followings Found"),400
           

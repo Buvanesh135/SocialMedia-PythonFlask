@@ -7,5 +7,6 @@ WHITELISTED=[
     "sign",
     "callback",
     "signout",
-    "index"
+    "index",
+    "redirect"
 ]
