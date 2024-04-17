@@ -7,7 +7,6 @@ import jwt
 authblue=Blueprint('authprint',__name__,url_prefix="/auth")
 
 
-
 @authblue.route("/login", methods=['GET'])
 def login():
     auth = request.authorization
@@ -31,7 +30,6 @@ def login():
     return jsonify({'access_token': access_token_str, 'refresh_token': refresh_token_str})
 
 
-
 @authblue.route("/refreshtoken", methods=['POST'])
 def refresh_token():
     refresh_token = request.json.get('refresh_token')
@@ -45,7 +43,9 @@ def refresh_token():
         return jsonify({'message': 'Refresh token expired'}), 401
     except jwt.InvalidTokenError:
         return jsonify({'message': 'Invalid refresh token'}), 401
-
+ 
+#  Giving variable name to check constraint:Check constraints can be given a variable name using the syntax:
+    # 
 
 
 @authblue.route("/hello",methods=['GET'])
@@ -53,7 +53,7 @@ def helloworld():
     if "user" in session:
         return render_template("index.html",session=session.get("user"),pretty=json.dumps(session.get("user"),indent=4))
     return redirect(url_for(".sign"))
-    
+
 
 @authblue.route("/callback")
 def callback():
@@ -61,7 +61,6 @@ def callback():
     token=oauth.google.authorize_access_token(client_secret=os.getenv('GOOGLE_SECRET_KEY'))
     session["user"]=token
     return redirect(url_for(".helloworld"))
-
 
 
 @authblue.route("/sign")
@@ -74,14 +73,11 @@ def sign():
         return oauth.google.authorize_redirect(redirect_uri=url_for(".callback",_external=True))
 
 
-
 @authblue.route("/signout")
 def signout():
     if "user" in session:
         session.clear()
-    
     return redirect(url_for('.sign'))
-
 
 
 @authblue.route("/index")

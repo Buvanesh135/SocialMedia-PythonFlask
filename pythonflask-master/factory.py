@@ -7,10 +7,10 @@ from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from config import *
 from flask_mail import Mail
-
 db = SQLAlchemy()
 mail=Mail()
-BASE_URL_PREFIX = ''    
+BASE_URL_PREFIX = ''
+
 def create_app(config_name):
     app = Flask(__name__, instance_relative_config=True)
     config_name = 'development'
@@ -30,7 +30,7 @@ def create_app(config_name):
     # Enabling CORS
     CORS(app)
     return mail,app
-# 
+
 
 def register_blueprints(app):
     from SocialMedia.Views.UserViews import blu

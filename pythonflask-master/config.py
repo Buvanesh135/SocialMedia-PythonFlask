@@ -31,8 +31,8 @@ class Config:
     JWT_ALGORITHM  = os.getenv('JWT_ALGORITHM')
     JWT_TOKEN_TIME_OUT_IN_MINUTES = os.getenv('JWT_TOKEN_TIME_OUT_IN_MINUTES')
     JWT_REFRESH_TOKEN_TIME_OUT_IN_MINUTES = os.getenv('JWT_REFRESH_TOKEN_TIME_OUT_IN_MINUTES')
-    
-
+    JWT_TOKEN_REFRESH=os.getenv('JWT_TOKEN_REFRESH')
+    # JWT_TOKEN_TIME_OUT_IN_MINUTES=os.getenv
 
 class DevelopmentConfig(Config):    
     # SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:iphone21@localhost/hoi'
@@ -44,9 +44,6 @@ class DevelopmentConfig(Config):
     DEVELOPMENT = True
     DEBUG = True
     FIXED_RATE = 200
-
-
-
 
 
 # redis_client = 'clien conn goes here'

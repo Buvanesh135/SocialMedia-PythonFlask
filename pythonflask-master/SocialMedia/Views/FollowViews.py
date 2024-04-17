@@ -8,7 +8,8 @@ followblue=Blueprint('followBlue',__name__,url_prefix="/follow")
 @followblue.route("/addFollow",methods=["POST"])
 def addFollower():
     from api.users.views import mailsender
-    from api.users.helpers import make_response
+#     from api.users.helpers import make_response
+    
     data=request.get_json()
     sender_id=data.get('sender_id')
     receiver_id=data.get('receiver_id')

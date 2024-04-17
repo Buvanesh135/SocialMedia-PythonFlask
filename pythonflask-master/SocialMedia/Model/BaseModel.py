@@ -2,6 +2,7 @@ import uuid
 from sqlalchemy import inspect
 from sqlalchemy import Column, DateTime, String, func
 from factory import db
+
 def default_uuid():
     return uuid.uuid4().hex
 
@@ -19,6 +20,7 @@ class Base(db.Model):
     #     'polymorphic_on': type,          The __mapper_args__ attribute in SQLAlchemy is used to provide additional configuration options to the mapper when defining a mapped class for polymor inheritance
     #     'polymorphic_identity': 'node' 
     # } 
+    
     id = Column(db.Integer, primary_key=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), index=True)
     update_at = Column(DateTime(timezone=True), onupdate=func.now())
@@ -27,11 +29,9 @@ class Base(db.Model):
     updated_by = Column(String(40), default=None)
     deleted_by = Column(String(40), default=None)
     status = Column(String(10), default=None)
-    
-    
     def _asdict(self):
         return serialize(self)
-    
+
 
     def objects(*args):
         return db.session.query(*args)

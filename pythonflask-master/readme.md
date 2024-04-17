@@ -33,7 +33,10 @@ Tools ->git, vs code, intellij,docker
 
 
 
-
 project
  MRB, Social-Media-Flask
 
+
+
+8-10 ->protfolio,5 -problems
+10-11-> anime

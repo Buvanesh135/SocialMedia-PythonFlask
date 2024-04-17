@@ -13,8 +13,8 @@ class Users(Base):
     followers=db.Column(db.Integer,default=0)
     account_type=db.Column(db.String(),default='private')
     interest=db.Column(db.String(15))
-    
-    
+
+
 class Follow(Base):
      __tablename__='Follow'
      id = db.Column(db.Integer, primary_key=True)
@@ -33,12 +33,17 @@ class Post(Base):
      user=db.relationship("Users",foreign_keys=[user_id])
 
 
+class UserFriend(Base):
+     __tablename__='friend'
+     name=db.Column(db.string(20),nullable=False)
+     Email=db.Column(db.string(30),unique=True,nullable=False)
+
+
 class like(Base):
      __tablename__='like'
      user_id=db.Column(db.Integer,db.ForeignKey('Users.id'))
      post_id=db.Column(db.Integer,db.ForeignKey('post.id'))
      user=db.relationship("Users",foreign_keys=[user_id])
      post=db.relationship("Post",foreign_keys=[post_id])
-
 
 

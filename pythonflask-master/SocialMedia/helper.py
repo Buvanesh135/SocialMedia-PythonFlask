@@ -1,8 +1,8 @@
 from factory import db
 from flask import jsonify
 from general_utils.json_utils import query_list_to_dict,Success
-from SocialMedia.Model.Models import Users,Post,like,Follow
-
+from SocialMedia.Model.Models import Users
+from SocialMedia.Model.Models import Post,like,Follow
 def ResponseBody(message):
     return jsonify({"Message":message})
 
