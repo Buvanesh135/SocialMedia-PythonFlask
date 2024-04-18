@@ -1,0 +1,51 @@
+from flask import Flask, render_template, redirect, request, session
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import Flow
+from googleapiclient.discovery import build
+
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'  # Change this to a secure random key
+
+
+# Load client secrets from the JSON file
+flow = Flow.from_client_secrets_file(
+    'client_secret.json',
+    scopes=['https://www.googleapis.com/auth/calendar.readonly'],
+    redirect_uri='http://localhost:5000/oauth2callback'
+)
+
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
+@app.route('/login')
+def login():
+    authorization_url, state = flow.authorization_url()
+    session['state'] = state
+    return redirect(authorization_url)
+
+
+@app.route('/oauth2callback')
+def oauth2callback():
+    flow.fetch_token(authorization_response=request.url)
+    credentials = flow.credentials
+    session['credentials'] = credentials_to_dict(credentials)
+    return redirect('/events')
+
+
+@app.route('/events')
+def events():
+    if 'credentials' not in session:
+        return redirect('/login')
+    credentials = Credentials(**session['credentials'])
+    service = build('calendar', 'v3', credentials=credentials)
+    events_result = service.events().list(calendarId='primary', maxResults=10).execute()
+    events = events_result.get('items', [])
+
+    return render_template('events.html', events=events)
+
+if __name__ == '__main__':
+    app.run(debug=True)

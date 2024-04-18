@@ -13,8 +13,6 @@ from functools import wraps
 blu=Blueprint('blueprintss',__name__,url_prefix="/user")
 
 
-
-
 secret_key = secrets.token_hex(32)
 @blu.route("/newuser",methods=["POST"])
 def CreateNew_User():

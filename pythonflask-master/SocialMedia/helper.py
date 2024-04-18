@@ -111,13 +111,6 @@ def postofSuggestion(interest):
                   "followers":user.followers,
                   "followings":user.following
             }
-
-            # post=Post.query.filter_by(user_id=user_id).all()
-            # postofuser={
-            #      "post_name":post.post_name,
-            #      "post_created_by":post.created_at,
-            #      "post_"
-            # }
             for user in users
       ]
       return jsonify(Suggestions),200

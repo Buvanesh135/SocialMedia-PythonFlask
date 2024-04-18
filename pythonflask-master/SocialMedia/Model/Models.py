@@ -18,12 +18,11 @@ class Users(Base):
 class Follow(Base):
      __tablename__='Follow'
      id = db.Column(db.Integer, primary_key=True)
-     status = db.Column(db.Boolean, nullable=False, default=False)
+     status = db.Column(db.Boolean, nullable=False, default=False)    
      sender_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
      receiver_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
      sender = db.relationship("Users", foreign_keys=[sender_id] )
      receiver = db.relationship("Users", foreign_keys=[receiver_id])
-
 
 class Post(Base):
      __tablename__='post'
@@ -31,12 +30,6 @@ class Post(Base):
      user_id=db.Column(db.Integer,db.ForeignKey('Users.id'))  
      likes=db.Column(db.Integer,nullable=False)
      user=db.relationship("Users",foreign_keys=[user_id])
-
-
-class UserFriend(Base):
-     __tablename__='friend'
-     name=db.Column(db.string(20),nullable=False)
-     Email=db.Column(db.string(30),unique=True,nullable=False)
 
 
 class like(Base):

@@ -5,11 +5,10 @@ followblue=Blueprint('followBlue',__name__,url_prefix="/follow")
      
 
 
+
 @followblue.route("/addFollow",methods=["POST"])
 def addFollower():
     from api.users.views import mailsender
-#     from api.users.helpers import make_response
-    
     data=request.get_json()
     sender_id=data.get('sender_id')
     receiver_id=data.get('receiver_id')
@@ -34,6 +33,8 @@ def addFollower():
     return ResponseBody("Follow details saved successfully"),200
 
 
+
+
 @followblue.route("/UpdateFollow",methods=["PUT"])
 def UpdateFollow(currentuser):
    if currentuser.Email!='buvanesh1902@gmail.com':
@@ -52,6 +53,7 @@ def UpdateFollow(currentuser):
    return ResponseBody("Follow Details Updated succcessfully"),200
 
 
+
 @followblue.route("/getFollowers", methods=["GET"])
 def getfollowersofuser():
 #     if currentuser.Email!='buvanesh1902@gmail.com':
@@ -62,6 +64,7 @@ def getfollowersofuser():
           return FollowerDetails(followers=followers,user_id=user_id),200
     else :
          return ResponseBody("No Followers Found"),400
+
 
 
 @followblue.route("/getFollowings",methods=["GET"])

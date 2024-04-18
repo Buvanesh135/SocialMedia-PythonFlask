@@ -7,10 +7,8 @@ from config import Config
 from flask import redirect
 from general_utils.Whitelisted import WHITELISTED
 from SocialMedia.helper import failure
-from general_utils.connection import raw_select_read_replica
 import jwt
-
-
+from general_utils.connection import raw_select
 mail,app = create_app(__name__)
 app.config['SECRET_KEY']='12345'
 oauth = OAuth(app)
@@ -28,12 +26,9 @@ google = oauth.register(
     access_token_method='POST',
     access_token_url='https://accounts.google.com/o/oauth2/token',
     authorize_url='https://accounts.google.com/o/oauth2/auth',
-)
-
-    
-
+) 
                                           #MiddleWare  
-
+                                          
 @app.before_request
 def applicationBeforeRequest():
     """
@@ -72,9 +67,10 @@ def validateTokens(token):
             return "Token has expired"
         except jwt.InvalidTokenError:
             return "Invalid token"
+        except IndentationError:
+            return "Indent error"
         except Exception as e:
             return jsonify({"message": str(e)}), 401   
-            
 
 register_blueprints(app)  
 if __name__ == '__main__':

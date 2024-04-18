@@ -9,25 +9,22 @@ authblue=Blueprint('authprint',__name__,url_prefix="/auth")
 
 @authblue.route("/login", methods=['GET'])
 def login():
+    agent=request.user_agent
     auth = request.authorization
     if not auth or not auth.username or not auth.password:
         return make_response('could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
-    
     user = Users.query.filter_by(Email=auth.username).first()
     if not user:
         return make_response('could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
-    
     if auth.password != user.password:
         return make_response('could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
-    
     access_token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=1)}, Config.SECRET_KEY)
     refresh_token = jwt.encode({'id': user.id, 'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1)}, Config.REFRESH_SECRET_KEY)
-
     # Decode byte strings to UTF-8 strings
     access_token_str = access_token.decode('utf-8')
     refresh_token_str = refresh_token.decode('utf-8')
     print(access_token_str, 'token generated', Config.SECRET_KEY, "secret_key")
-    return jsonify({'access_token': access_token_str, 'refresh_token': refresh_token_str})
+    return jsonify({'access_token': access_token_str, 'refresh_token': refresh_token_str})      
 
 
 @authblue.route("/refreshtoken", methods=['POST'])
@@ -43,7 +40,6 @@ def refresh_token():
         return jsonify({'message': 'Refresh token expired'}), 401
     except jwt.InvalidTokenError:
         return jsonify({'message': 'Invalid refresh token'}), 401
- 
 #  Giving variable name to check constraint:Check constraints can be given a variable name using the syntax:
     # 
 
