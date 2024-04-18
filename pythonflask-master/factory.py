@@ -44,6 +44,7 @@ def register_blueprints(app):
         app.register_blueprint(followblue, url_prefix=BASE_URL_PREFIX)
         app.register_blueprint(Postblue, url_prefix=BASE_URL_PREFIX)
     else:
+        # app.register_blueprint(blu)
         app.register_blueprint(blu) 
         app.register_blueprint(followblue)
         app.register_blueprint(Postblue)

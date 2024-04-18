@@ -79,3 +79,8 @@ def signout():
 @authblue.route("/index")
 def index():
     return "Google test"
+
+
+@authblue.route("/callback")
+def index():
+    return "callback"

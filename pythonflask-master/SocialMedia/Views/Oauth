@@ -44,8 +44,8 @@ def events():
     service = build('calendar', 'v3', credentials=credentials)
     events_result = service.events().list(calendarId='primary', maxResults=10).execute()
     events = events_result.get('items', [])
-
     return render_template('events.html', events=events)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -4,8 +4,6 @@ from SocialMedia.helper import ResponseBody,save,update,FollowerDetails,Followin
 followblue=Blueprint('followBlue',__name__,url_prefix="/follow") 
      
 
-
-
 @followblue.route("/addFollow",methods=["POST"])
 def addFollower():
     from api.users.views import mailsender
