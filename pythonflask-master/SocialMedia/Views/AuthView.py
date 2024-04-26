@@ -4,7 +4,7 @@ from config import *
 import os
 from SocialMedia.Model.Models import Users
 import jwt
-authblue=Blueprint('authprint',__name__,url_prefix="/auth")
+authblue=Blueprint('authprint',__name__,url_prefix="/authtest")
 
 
 @authblue.route("/login", methods=['GET'])
@@ -82,5 +82,5 @@ def index():
 
 
 @authblue.route("/callback")
-def index():
+def index_new():
     return "callback"

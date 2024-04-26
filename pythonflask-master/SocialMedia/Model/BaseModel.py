@@ -29,6 +29,7 @@ class Base(db.Model):
     updated_by = Column(String(40), default=None)
     deleted_by = Column(String(40), default=None)
     status = Column(String(10), default=None)
+   
     def _asdict(self):
         return serialize(self)
 

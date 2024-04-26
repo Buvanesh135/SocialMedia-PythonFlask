@@ -32,7 +32,6 @@ def CreateNew_User():
        return ResponseBody("Enter the valid details"),400
 
 
-
 @blu.route("/updateUser",methods=["PUT"])
 def updateUser():
    data=request.get_json()

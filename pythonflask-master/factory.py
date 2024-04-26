@@ -7,6 +7,11 @@ from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 from config import *
 from flask_mail import Mail
+import warnings
+
+# Suppress the warning
+warnings.filterwarnings("ignore", message="urllib3 .* doesn't match a supported ")
+
 db = SQLAlchemy()
 mail=Mail()
 BASE_URL_PREFIX = ''
@@ -43,6 +48,8 @@ def register_blueprints(app):
         app.register_blueprint(blu,url_prefix=BASE_URL_PREFIX) 
         app.register_blueprint(followblue, url_prefix=BASE_URL_PREFIX)
         app.register_blueprint(Postblue, url_prefix=BASE_URL_PREFIX)
+        app.register_blueprint(authblue, url_prefix=BASE_URL_PREFIX)
+
     else:
         # app.register_blueprint(blu)
         app.register_blueprint(blu) 
@@ -50,4 +57,4 @@ def register_blueprints(app):
         app.register_blueprint(Postblue)
         app.register_blueprint(LikeBlue)
         app.register_blueprint(authblue)
-        
+                

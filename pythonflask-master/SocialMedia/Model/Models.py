@@ -23,6 +23,7 @@ class Follow(Base):
      receiver_id = db.Column(db.Integer, db.ForeignKey('Users.id'))
      sender = db.relationship("Users", foreign_keys=[sender_id] )
      receiver = db.relationship("Users", foreign_keys=[receiver_id])
+               
 
 class Post(Base):
      __tablename__='post'

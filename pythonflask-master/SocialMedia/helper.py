@@ -7,22 +7,18 @@ from SocialMedia.Model.Models import Post,like,Follow
 def ResponseBody(message):
     return jsonify({"Message":message})
 
-
 def save(obj):
          db.session.add(obj)
          db.session.commit()
 
-
 def update():
       db.session.commit()
-
 
 def ResponseBodyofDeleteUser(id):
      user=Users.query.filter_by(id=id).first()
      if user:
           db.query.session.delete(user)
           update()
-
 
 def ResponseBodyUserSingleData(data):
      user=Users.query.with_entities(Users.name,Users.interest,Users.ph_no,Users.followers,Users.following).filter_by(id=data).first()
@@ -32,16 +28,13 @@ def ResponseBodyUserSingleData(data):
      Result=query_list_to_dict(Users_details)
      return Success(Result,0)
 
-
 def ResponseBodyAllUserData(users):
      Result=query_list_to_dict(users)
      return Success(Result,0)
 
-
 def ResponseBodyAllPostData(posts):
     result=query_list_to_dict(posts)
     return Success(result,0)
-
 
 def ResponseBodySinglePostData(data):
       post=[]
@@ -51,15 +44,13 @@ def ResponseBodySinglePostData(data):
       details=query_list_to_dict(post)
       return Success(details,0)
 
-
-def FollowerDetails(followers,user_id):
+def FollowerDetails(followers,):
        follow_data=[]
        for follow in followers:
             followers=Follow.query.with_entities(Follow.sender_id,Users.name,Users.interest,Users.account_type,Users.followers,Users.following).join(Users, Follow.sender_id == Users.id).filter(Follow.sender_id==follow.sender_id).first()
             follow_data.append(followers)
        followers_details=query_list_to_dict(follow_data)
        return Success(followers_details,0)
-
 
 def FollowingsDetails(followings):
      followings_details=[]

@@ -72,10 +72,8 @@ def validateTokens(token):
         except Exception as e:
             return jsonify({"message": str(e)}), 401   
 
-register_blueprints(app)  
+register_blueprints(app)
+  
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=os.getenv('PORT', os.getenv('PORT')))
 
-
-# if __name__ == '__main__':
-#     app.run(port=5000)

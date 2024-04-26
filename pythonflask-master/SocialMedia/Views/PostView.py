@@ -21,14 +21,13 @@ def Addpost():
         return ResponseBody("Enter the Valid Post details"),400
     
 
-
 @Postblue.route("/getPostofonefollower",methods=["GET"])
 def getPostofonefollower():
    data=request.args.get('id')
    if data:
       post=Post.query.with_entities(Post.id,Post.post_name)
-
-
+   
+   
 @Postblue.route("/GetPost",methods=["GET"])
 def GetPost():
     getallPost=Post.query.with_entities(Post.post_name,Post.user_id).all()
